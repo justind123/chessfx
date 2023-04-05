@@ -7,7 +7,6 @@ public class Board {
     private Piece[][] board = new Piece[8][8];
 
     public Board() {
-        System.out.println("Working Directory = " + System.getProperty("user.dir"));
         for (int i = 0; i < board.length; i++) {
             board[1][i] = new Pawn(Color.BLACK);
             board[6][i] = new Pawn(Color.WHITE);

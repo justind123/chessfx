@@ -8,7 +8,6 @@ public class ChessFXController {
     private Board board;
 
     public ChessFXController() {
-        System.out.println("Working Directory = " + System.getProperty("user.dir"));
         board = new Board();
     }
 

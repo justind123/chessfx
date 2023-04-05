@@ -31,7 +31,6 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) {
-        //System.out.println("Working Directory = " + System.getProperty("user.dir"));
         ChessFXController controller = new ChessFXController();
         System.out.println(controller.printBoard());
 
