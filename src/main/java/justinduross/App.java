@@ -10,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.paint.Color;
@@ -33,26 +34,26 @@ public class App extends Application {
 
     private static Scene scene;
     private ChessFXController controller;
-    private TilePane tilePane;
+    private GridPane gridPane;
 
     @Override
     public void start(Stage stage) {
         controller = new ChessFXController();
         System.out.println(controller.printBoard());
 
-        tilePane = new TilePane();
-        tilePane.setPrefColumns(8);
-        tilePane.setPrefRows(8);
-        tilePane.setTileAlignment(Pos.CENTER);
+        gridPane = new GridPane();
+        //gridPane.setColumnSpan(8);
+        //gridPane.setPrefRows(8);
+        //gridPane.setTileAlignment(Pos.CENTER);
 
-        tilePane = drawBoardAndPieces(tilePane);
+        gridPane = drawBoardAndPieces(gridPane);
 
-        Scene scene = new Scene(tilePane);
+        Scene scene = new Scene(gridPane);
         stage.setScene(scene);
         stage.show();
     }
 
-    private TilePane drawBoardAndPieces(TilePane tilePane) {
+    private GridPane drawBoardAndPieces(GridPane GridPane) {
         ClickHandler click = new ClickHandler();
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
@@ -78,16 +79,15 @@ public class App extends Application {
                     stackPane.getChildren().add(pieceImageView);
                 }
                 
-                tilePane.getChildren().addAll(stackPane);
+                gridPane.add(stackPane, j, i);
             }
         }
 
-        return tilePane;
+        return gridPane;
     }
 
     private class ClickHandler implements EventHandler<MouseEvent> {
 
-        private boolean isPieceClicked;
         private StackPane prevStackPane;
 
         @Override
@@ -108,6 +108,8 @@ public class App extends Application {
             
             Rectangle newRect = new Rectangle(50, 50, Color.RED);
             stackPane.getChildren().add(1, newRect);
+
+            addValidMoveHighlights();
         }
 
         private boolean isValidClick(MouseEvent m) {
@@ -122,7 +124,7 @@ public class App extends Application {
 
             for (int i = 0; i < 8; i++) {
                 for (int j = 0; j < 8; j++) {
-                    StackPane currStackPane = (StackPane) tilePane.getChildren().get(8*i + j);
+                    StackPane currStackPane = (StackPane) gridPane.getChildren().get(8*i + j);
                     if (currStackPane.equals(stackPane)) {
                         
                         Color clickedColor = controller.getPiece(i, j).getColor();
@@ -137,6 +139,10 @@ public class App extends Application {
             }
 
             return false;
+        }
+
+        private void addValidMoveHighlights() {
+
         }
         
     }
