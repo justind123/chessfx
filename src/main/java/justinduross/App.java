@@ -13,6 +13,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import javafx.stage.Stage;
@@ -52,6 +53,7 @@ public class App extends Application {
     }
 
     private TilePane drawBoardAndPieces(TilePane tilePane) {
+        ClickHandler click = new ClickHandler();
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 Color color;
@@ -65,7 +67,6 @@ public class App extends Application {
                 Rectangle rect = new Rectangle(50, 50, color);
                 rect.setStyle("-fx-stroke: black; -fx-stroke-width: 1px; -fx-stroke-type: outside;");
 
-                ClickHandler click = new ClickHandler();
                 StackPane stackPane = new StackPane();
                 stackPane.addEventHandler(MouseEvent.MOUSE_CLICKED, click);
                 stackPane.getChildren().add(rect);
@@ -86,6 +87,9 @@ public class App extends Application {
 
     private class ClickHandler implements EventHandler<MouseEvent> {
 
+        private boolean isPieceClicked;
+        private StackPane prevStackPane;
+
         @Override
         public void handle(MouseEvent m) {
             System.out.println(m);
@@ -95,15 +99,15 @@ public class App extends Application {
             }
 
             StackPane stackPane = (StackPane) m.getSource();
-            Rectangle rect = (Rectangle) stackPane.getChildren().get(0);
-            rect.setFill(Color.RED);
 
+            if (prevStackPane != null) {
+                prevStackPane.getChildren().remove(1);
+            }
 
-
-
-
-            // TODO Auto-generated method stub
-            //throw new UnsupportedOperationException("Unimplemented method 'handle'");
+            prevStackPane = stackPane;
+            
+            Rectangle newRect = new Rectangle(50, 50, Color.RED);
+            stackPane.getChildren().add(1, newRect);
         }
 
         private boolean isValidClick(MouseEvent m) {
@@ -120,6 +124,7 @@ public class App extends Application {
                 for (int j = 0; j < 8; j++) {
                     StackPane currStackPane = (StackPane) tilePane.getChildren().get(8*i + j);
                     if (currStackPane.equals(stackPane)) {
+                        
                         Color clickedColor = controller.getPiece(i, j).getColor();
 
                         if (clickedColor == Color.WHITE) {
