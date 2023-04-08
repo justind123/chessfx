@@ -5,12 +5,14 @@ import java.io.FileNotFoundException;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
 
 public abstract class Piece {
 
     //protected static Image image = new Image("./src/main/pieces.png");
     protected Image image;
     protected ImageView imageView;
+    protected Color color;
 
     protected Piece() {
         try {
@@ -21,6 +23,10 @@ public abstract class Piece {
         }
 
         imageView = new ImageView(image);
+    }
+
+    public Color getColor() {
+        return color;
     }
 
     public abstract ImageView getImageView();

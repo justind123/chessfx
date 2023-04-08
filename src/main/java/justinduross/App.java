@@ -32,13 +32,14 @@ public class App extends Application {
 
     private static Scene scene;
     private ChessFXController controller;
+    private TilePane tilePane;
 
     @Override
     public void start(Stage stage) {
         controller = new ChessFXController();
         System.out.println(controller.printBoard());
 
-        TilePane tilePane = new TilePane();
+        tilePane = new TilePane();
         tilePane.setPrefColumns(8);
         tilePane.setPrefRows(8);
         tilePane.setTileAlignment(Pos.CENTER);
@@ -89,14 +90,48 @@ public class App extends Application {
         public void handle(MouseEvent m) {
             System.out.println(m);
 
+            if (!isValidClick(m)) {
+                return;
+            }
+
             StackPane stackPane = (StackPane) m.getSource();
             Rectangle rect = (Rectangle) stackPane.getChildren().get(0);
             rect.setFill(Color.RED);
 
 
 
+
+
             // TODO Auto-generated method stub
             //throw new UnsupportedOperationException("Unimplemented method 'handle'");
+        }
+
+        private boolean isValidClick(MouseEvent m) {
+            if ( !(m.getSource() instanceof StackPane) ) {
+                return false;
+            }
+
+            StackPane stackPane = (StackPane) m.getSource();
+            if (stackPane.getChildren().size() < 2) {
+                return false;
+            }
+
+            for (int i = 0; i < 8; i++) {
+                for (int j = 0; j < 8; j++) {
+                    StackPane currStackPane = (StackPane) tilePane.getChildren().get(8*i + j);
+                    if (currStackPane.equals(stackPane)) {
+                        Color clickedColor = controller.getPiece(i, j).getColor();
+
+                        if (clickedColor == Color.WHITE) {
+                            return true;
+                        }
+
+                        return false;
+                    }
+                }
+            }
+
+            return false;
         }
         
     }

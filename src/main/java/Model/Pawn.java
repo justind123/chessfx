@@ -5,8 +5,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 
 public class Pawn extends Piece {
-
-    private Color color;
     
     public Pawn(Color color) {
         super();

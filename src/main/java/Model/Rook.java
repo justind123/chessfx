@@ -6,8 +6,6 @@ import javafx.scene.paint.Color;
 
 public class Rook extends Piece {
 
-    private Color color;
-
     public Rook(Color color) {
         super();
         this.color = color;

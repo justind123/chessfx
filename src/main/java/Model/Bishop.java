@@ -6,8 +6,6 @@ import javafx.scene.paint.Color;
 
 public class Bishop extends Piece {
 
-    private Color color;
-
     public Bishop(Color color) {
         super();
         this.color = color;

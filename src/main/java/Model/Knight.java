@@ -6,8 +6,6 @@ import javafx.scene.paint.Color;
 
 public class Knight extends Piece {
 
-    private Color color;
-
     public Knight(Color color) {
         super();
         this.color = color;
