@@ -5,6 +5,7 @@ import javafx.scene.paint.Color;
 public class Board {
 
     private Piece[][] board = new Piece[8][8];
+    private Color currTurn = Color.WHITE;
 
     public Board() {
         for (int i = 0; i < board.length; i++) {
