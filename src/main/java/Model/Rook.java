@@ -34,6 +34,39 @@ public class Rook extends Piece {
     public List<int[]> getValidMoves() {
         List<int[]> validMoves = new ArrayList<int[]>();
 
+        Piece piece;
+        for (int i = x; i >= 0; i--) {
+            piece = ChessFXController.getPiece(i, y);
+            if (piece.getColor() == Color.WHITE) {
+                break;
+            }
+            addValidMove(i, y, validMoves);
+        }
+
+        for (int i = x; i < 8; i++) {
+            piece = ChessFXController.getPiece(i, y);
+            if (piece.getColor() == Color.WHITE) {
+                break;
+            }
+            addValidMove(i, y, validMoves);
+        }
+
+        for (int i = y; y >= 0; i++) {
+            piece = ChessFXController.getPiece(x, i);
+            if (piece.getColor() == Color.WHITE) {
+                break;
+            }
+            addValidMove(x, i, validMoves);
+        }
+
+        for (int i = y; y < 8; i++) {
+            piece = ChessFXController.getPiece(x, i);
+            if (piece.getColor() == Color.WHITE) {
+                break;
+            }
+            addValidMove(x, i, validMoves);
+        }
+
         return validMoves;
     }
 

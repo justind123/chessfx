@@ -37,6 +37,7 @@ public class App extends Application {
     //private ChessFXController controller;
     private GridPane gridPane;
     private List<StackPane> currSquareHighlights = new ArrayList<StackPane>();
+    private Color currTurn;
 
     @Override
     public void start(Stage stage) {
@@ -95,11 +96,15 @@ public class App extends Application {
 
         @Override
         public void handle(MouseEvent m) {
+            if (currTurn != Color.WHITE) {
+                return;
+            }
             System.out.println(m);
 
             if (!isValidClick(m)) {
                 return;
             }
+            
 
             StackPane stackPane = (StackPane) m.getSource();
 
