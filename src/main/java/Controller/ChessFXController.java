@@ -5,17 +5,20 @@ import Model.Piece;
 
 public class ChessFXController {
 
-    private Board board;
+    private static Board board = new Board();
 
     public ChessFXController() {
         board = new Board();
     }
 
-    public Piece getPiece(int x, int y) {
+    public static Piece getPiece(int x, int y) {
+        if (x < 0 || x > 7 || y < 0 || y > 7) {
+            return null;
+        }
         return board.getPiece(x, y);
     }
 
-    public String printBoard() {
+    public static String printBoard() {
         return board.toString();
     }
     

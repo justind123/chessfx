@@ -1,14 +1,19 @@
 package Model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javafx.geometry.Rectangle2D;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 
 public class King extends Piece {
 
-    public King(Color color) {
+    public King(Color color, int x, int y) {
         super();
         this.color = color;
+        this.x = x;
+        this.y = y;
 
         double width = image.getRequestedWidth() / 6;
         double height = image.getRequestedHeight() / 2;
@@ -25,6 +30,14 @@ public class King extends Piece {
         imageView.setViewport(viewport);
     }
 
+    public List<int[]> getValidMoves() {
+        List<int[]> validMoves = new ArrayList<int[]>();
+
+        
+
+        return validMoves;
+    }
+    
     public ImageView getImageView() {
         return imageView;
     }

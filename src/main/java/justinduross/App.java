@@ -22,6 +22,7 @@ import javafx.stage.Stage;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import Controller.ChessFXController;
@@ -33,13 +34,14 @@ import Model.Piece;
 public class App extends Application {
 
     private static Scene scene;
-    private ChessFXController controller;
+    //private ChessFXController controller;
     private GridPane gridPane;
+    private List<StackPane> currSquareHighlights = new ArrayList<StackPane>();
 
     @Override
     public void start(Stage stage) {
-        controller = new ChessFXController();
-        System.out.println(controller.printBoard());
+        //controller = new ChessFXController();
+        System.out.println(ChessFXController.printBoard());
 
         gridPane = new GridPane();
         //gridPane.setColumnSpan(8);
@@ -73,9 +75,9 @@ public class App extends Application {
                 stackPane.getChildren().add(rect);
 
                 ImageView pieceImageView;
-                Piece piece = controller.getPiece(i, j);
+                Piece piece = ChessFXController.getPiece(i, j);
                 if (piece != null) {
-                    pieceImageView = controller.getPiece(i, j).getImageView();
+                    pieceImageView = ChessFXController.getPiece(i, j).getImageView();
                     stackPane.getChildren().add(pieceImageView);
                 }
                 
@@ -88,7 +90,8 @@ public class App extends Application {
 
     private class ClickHandler implements EventHandler<MouseEvent> {
 
-        private StackPane prevStackPane;
+        private int x;
+        private int y;
 
         @Override
         public void handle(MouseEvent m) {
@@ -100,16 +103,18 @@ public class App extends Application {
 
             StackPane stackPane = (StackPane) m.getSource();
 
-            if (prevStackPane != null) {
-                prevStackPane.getChildren().remove(1);
+            if (currSquareHighlights.size() > 0) {
+                for (StackPane pane : currSquareHighlights) {
+                    pane.getChildren().remove(1);
+                }
+                currSquareHighlights.removeAll(currSquareHighlights);
             }
-
-            prevStackPane = stackPane;
             
             Rectangle newRect = new Rectangle(50, 50, Color.RED);
             stackPane.getChildren().add(1, newRect);
+            currSquareHighlights.add(stackPane);
 
-            addValidMoveHighlights();
+            addValidMoveHighlights(stackPane);
         }
 
         private boolean isValidClick(MouseEvent m) {
@@ -127,9 +132,11 @@ public class App extends Application {
                     StackPane currStackPane = (StackPane) gridPane.getChildren().get(8*i + j);
                     if (currStackPane.equals(stackPane)) {
                         
-                        Color clickedColor = controller.getPiece(i, j).getColor();
+                        Color clickedColor = ChessFXController.getPiece(i, j).getColor();
 
                         if (clickedColor == Color.WHITE) {
+                            x = i;
+                            y = j;
                             return true;
                         }
 
@@ -141,8 +148,18 @@ public class App extends Application {
             return false;
         }
 
-        private void addValidMoveHighlights() {
+        private void addValidMoveHighlights(StackPane stackPane) {
+            Piece piece = ChessFXController.getPiece(x, y);
+            List<int[]> getValidMoves = piece.getValidMoves();
 
+            List<Node> squares = gridPane.getChildren();
+
+            for (int[] move : getValidMoves) {
+                StackPane validMoveSquare = (StackPane)squares.get(move[0] * 8 + move[1]);
+                validMoveSquare.getChildren().add(1, new Rectangle(50, 50, Color.RED));
+                currSquareHighlights.add(validMoveSquare);
+            }
+            
         }
         
     }
