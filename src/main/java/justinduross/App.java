@@ -50,6 +50,7 @@ public class App extends Application {
         //gridPane.setTileAlignment(Pos.CENTER);
 
         gridPane = drawBoardAndPieces(gridPane);
+        currTurn = Color.WHITE;
 
         Scene scene = new Scene(gridPane);
         stage.setScene(scene);
